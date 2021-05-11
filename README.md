@@ -5,13 +5,16 @@ diagHttpSystem 是一个HTTP系统诊断工具, 具备以下功能:
 
     1. 解析url
         1.1 解析url中域名
-    2. 
-    
-    1. 获取解析信息      --    解析结果
-	2. 获取访问结果      --    直接访问测试
-	3. 获取绑定访问结果   --    绑定访问测试
-	4. 抓包测试TCP过程   --     是否存在某个包被丢，或者被reject (未实现)
+    2. 获取域名解析结果
+    3. 获取LocalDNS
+    4. 获取HTTP访问结果
+        4.1 HTTP CODE
+        4.2 HTTP Response
+    5. 用户端IP
+    6. TCP 包体过程 (暂时未实现)
 	
+start
+------
 
 ./dist/linux/digHttpSystem  -url http://www.baidu.com  -reportUrl http://hook.startops.com.cn/v1/hook/diag/http
 
@@ -20,7 +23,8 @@ diagHttpSystem 是一个HTTP系统诊断工具, 具备以下功能:
     -url         探测url
     -reportUrl   上报消息url
     
-json 格式上报数据
+json格式上报数据
+--------------
 
 ```
 error_message      错误消息
