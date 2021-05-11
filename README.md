@@ -16,7 +16,7 @@ diagHttpSystem 是一个HTTP系统诊断工具, 具备以下功能:
 start
 ------
 
-./dist/linux/digHttpSystem  -url http://www.baidu.com  -reportUrl http://hook.startops.com.cn/v1/hook/diag/http
+./dist/linux/digHttpSystem  -url http://www.baidu.com  -reportUrl http://hook.xx.com/v1/hook/diag/http
 
 ./dist/linux/digHttpSystem
 

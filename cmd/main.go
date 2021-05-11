@@ -24,8 +24,8 @@ type ReportBody struct {
 }
 
 func init(){
-	flag.StringVar(&url, "url", "", "")
-	flag.StringVar(&reportUrl, "reportUrl", "http://hook.startops.com.cn/v1/hook/diag/http", "")
+	flag.StringVar(&url, "url", "https://www.baidu.com", "-url https://www.baidu.com")
+	flag.StringVar(&reportUrl, "reportUrl", "http://hook.xx.com/v1/hook/diag/http", "-reportUrl http://hook.xx.com/v1/hook/diag/http")
 	flag.Parse()
 }
 
