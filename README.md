@@ -16,15 +16,21 @@ diagHttpSystem 是一个HTTP系统诊断工具, 具备以下功能:
 start
 ------
 
-./dist/linux/digHttpSystem  -url http://www.baidu.com  -reportUrl http://hook.xx.com/v1/hook/diag/http
+example:
 
-./dist/linux/digHttpSystem
+    ./dist/linux/digHttpSystem  -url http://www.xxx.com  -reportUrl http://hook.xx.com/v1/hook/diag/http
 
-    -url         探测url
-    -reportUrl   上报消息url
+Usage:
+    
+    ./dist/linux/digHttpSystem
+
+        -url         探测url
+        -reportUrl   上报消息url
     
 json格式上报数据
 --------------
+
+http json 格式上报以下内容
 
 ```
 error_message      错误消息
@@ -33,8 +39,5 @@ domain             url中解析出的域名
 domain_ip_addr     域名解析的IP地址
 local_dns          本地DNS
 request_body       请求url返回内容
-tcp_body           TCP内容
+tcp_body           TCP内容        //  暂时未实现
 ```
-
-
-
