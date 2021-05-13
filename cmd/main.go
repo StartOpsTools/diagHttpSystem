@@ -24,7 +24,7 @@ type ReportBody struct {
 }
 
 func init(){
-	flag.StringVar(&url, "url", "https://www.baidu.com", "-url https://www.baidu.com")
+	flag.StringVar(&url, "url", "https://www.xx.com", "-url https://www.xx.com")
 	flag.StringVar(&reportUrl, "reportUrl", "http://hook.xx.com/v1/hook/diag/http", "-reportUrl http://hook.xx.com/v1/hook/diag/http")
 	flag.Parse()
 }
@@ -34,34 +34,31 @@ func main(){
 	var domainIpAddr string
 	
 	reportBody.Url = url
-	
+	// url 正则表达式
 	urlCompile, err := regexp.Compile("(http[s]?)(://)(.*)")
 	if err != nil {
-		reportBody.ErrorMessage = err.Error()
-		
+		reportBody.ErrorMessage = "url 正则匹配失败, err: " + err.Error()
 		reportTrace(reportUrl, reportBody)
 		return
 	}
+	// ip 正则表达式
 	ipCompile, err := regexp.Compile("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")
 	if err != nil {
-		
-		reportBody.ErrorMessage = err.Error()
+		reportBody.ErrorMessage = "ip 正则匹配失败, err: " + err.Error()
 		reportTrace(reportUrl, reportBody)
 		return
 	}
-	
+	// url 正则匹配
 	urlStrings := urlCompile.FindStringSubmatch(url)
 	if len(urlStrings) != 4 {
 		reportBody.ErrorMessage = "正则表达式解析url失败."
 		return
 	}
-	
 	requestUrl := urlStrings[3]
 	requestUrlSlice := strings.Split(requestUrl, "/")
 	serverName := requestUrlSlice[0]
 	domainSlice := strings.Split(serverName, ":")
 	domain := domainSlice[0]
-	
 	// 访问域名解析
 	domainIpAddr = ipCompile.FindString(domain)
 	if domainIpAddr == "" {
@@ -72,11 +69,10 @@ func main(){
 			reportBody.DomainIpAddr = domainIpAddr
 		}
 	}
-	
-	// local dns
+	// LocalDNS
 	localDns, err := lookUpDns("whoami.akamai.net")
 	if err != nil {
-		reportBody.LocalDns = "localDns whoami.akamai.net failed, err: " + err.Error()
+		reportBody.LocalDns = "LocalDNS whoami.akamai.net failed, err: " + err.Error()
 	} else {
 		reportBody.LocalDns = localDns
 	}
@@ -98,20 +94,20 @@ func main(){
 	 */
 	
 	reportTrace(reportUrl, reportBody)
+	return
 }
 
-
+// 上报数据
 func reportTrace(reportUrl string, reportBody ReportBody) {
 	
 	reportData, err := json.Marshal(&reportBody)
 	if err != nil {
 		return
 	}
-	
 	httpRequest.ReportTrace(reportUrl, reportData)
 }
 
-
+// 解析域名
 func lookUpDns(domain string) (string, error){
 	
 	lookupAddrs, err := net.LookupHost(domain)
@@ -123,4 +119,3 @@ func lookUpDns(domain string) (string, error){
 	lookUpString := strings.Join(lookupAddrs, ",")
 	return lookUpString, nil
 }
-
